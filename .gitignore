@@ -1,0 +1,13 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Performance profiling data
+performance/
+OPPROF_*/
+*.bin
+*.log
+
+# Temporary directories (tempfile.mkdtemp)
+*_kernel*/
