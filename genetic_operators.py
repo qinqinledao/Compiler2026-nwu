@@ -40,7 +40,7 @@ class GeneticOperators:
         return code.replace("{", "{{").replace("}", "}}")
 
     def analyze_population_trends(self, sorted_population: List[Individual]) -> str:
-        """【高级分析节点】横向对比当前种群的优等生与落后生，提炼出代际优化红黑榜"""
+        """横向对比当前种群的优等生与落后生，提炼出代际优化红黑榜"""
         if len(sorted_population) < 2:
             return "No historical trends available yet."
 
@@ -86,7 +86,7 @@ class GeneticOperators:
         return report
 
     def crossover(self, parent1: Individual, parent2: Individual, global_report: str = None) -> Individual:
-        """【升级功能】融合全种种群趋势报告与显式性能反哺的自适应交叉算子"""
+        """融合全种种群趋势报告与显式性能反哺的自适应交叉算子"""
         selected_model = random.choice([
             parent1.model_used if parent1.model_used != "unknown" else self.llm.current_model,
             parent2.model_used if parent2.model_used != "unknown" else self.llm.current_model
@@ -145,7 +145,7 @@ class GeneticOperators:
         )
 
     def analyze_kernel(self, base_code: str, num_directions: int) -> List[str]:
-        """【保留功能】利用 purpose='analysis' 开局发掘多赛道初始战略"""
+        """利用 purpose='analysis' 开局发掘多赛道初始战略"""
         prompt = "\n".join([
             "You are an expert Triton kernel developer for Huawei Ascend NPU.",
             "Analyze the following baseline kernel and propose distinct, high-impact optimization strategies.",
@@ -171,7 +171,7 @@ class GeneticOperators:
         return [f"Hyper-parameter tuning sweep variant {i}" for i in range(num_directions)]
 
     def mutate(self, individual: Individual, strategy_hint: str = None, global_report: str = None) -> Individual:
-        """【升级功能】带全种种群大局观趋势与方向指导（Hint）的自适应突变算子"""
+        """带全种种群大局观趋势与方向指导（Hint）的自适应突变算子"""
         mutation_types = ['param_tuning', 'strategy_change', 'local_rewrite']
         code_mutation_type = random.choice(mutation_types)
         

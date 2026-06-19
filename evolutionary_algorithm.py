@@ -122,7 +122,7 @@ class EvolutionaryAlgorithm:
         print(f"[EA] Gen {self.generation}: Best={current_best.fitness:.4f}, Avg={avg_fitness:.4f}")
 
     def _evaluate_population(self) -> None:
-        """带有【底层日志捕获】与【平滑梯度】的评估流（不触发自动修复）"""
+        """带有【底层日志捕获】与【平滑梯度】的评估流"""
         import uuid
         for ind in self.population:
             if not ind.id or ind.id.startswith('hash_') or len(ind.id) != 8:
@@ -131,7 +131,6 @@ class EvolutionaryAlgorithm:
             if ind.fitness == 0 and not ind.metadata.get('evaluated', False):
                 result: EvaluationResult = self.executor.evaluate(ind.code)
                 
-                # 仅静默捕获底层报错记录到元数据，不启动 fix 抢救
                 real_error = result.error
                 if not result.success:
                     log_path = Path(self.executor.performance_dir) / self.executor.kernel_name / "get_prof.log"
@@ -145,7 +144,6 @@ class EvolutionaryAlgorithm:
                             pass
                     print(f"       [⚠️ 真机崩溃] 算子编译或运行失败，错误已被记录至元数据。")
 
-                # 平滑评分补丁：慢于基线也不打 0 分，完美瞒天过海，保留进化的火种
                 final_fitness = result.fitness
                 if result.success and final_fitness == 0.0 and result.execution_time > 0:
                     final_fitness = self.executor.baseline_time / result.execution_time
