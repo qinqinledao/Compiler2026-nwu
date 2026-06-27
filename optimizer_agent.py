@@ -251,7 +251,7 @@ class TritonOptimizerAgent:
 
         # Save top5 codes
         for i, code_info in enumerate(latest_result['top5_codes']):
-            code_path = output_path / f"{kernel_name}_{i+1}.py"
+            code_path = output_path / f"{kernel_name}_v{i+1}.py"
             with open(code_path, 'w') as f:
                 f.write(code_info['code'])
 
